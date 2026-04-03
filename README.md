@@ -1,7 +1,8 @@
-# Template Pages Project
+# cyber snake
 
-This is a template for a project having an independent github-pages directory.
+Classic snake with a new coating: bonus food, ramping up speeds and a new cyber themed enviornment.
 
-Visit the [github-pages](https://janniselef.github.io/pages-project-template)-website to see why this exists.
 
-This README.md is hosted on [it's own GitHub Repository.](https://github.com/JannisElef/pages-project-template)
+Play the game [here](https://janniselef.github.io/cyber-snake/).
+
+For more information, visit the [project-page](https://janniselef.github.io/projects/cyber-snake/).
