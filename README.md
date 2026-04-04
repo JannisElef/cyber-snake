@@ -1,8 +1,8 @@
-# cyber snake
+# Cyber-Snake
 
-Classic snake with a new coating: bonus food, ramping up speeds and a new cyber themed enviornment.
+Classic snake with a new coating - eat food, get larger, get faster, get stronger! Collect bonus foods, hit crazy combos and share your highscores or replays.
 
 
 Play the game [here](https://janniselef.github.io/cyber-snake/).
 
-For more information, visit the [project-page](https://janniselef.github.io/projects/cyber-snake/).
+For more information, visit the [project-page](https://janniselef.github.io/games/cyber-snake/).
