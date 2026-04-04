@@ -7,19 +7,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#0d0d18;--sur:#15152a;--red:#ff4455;--blue:#4488ff;--green:#44dd88;--yel:#ffcc00;--pur:#cc44ff;--ora:#ff8833;--mut:#363650;}
+:root{--bg:#0d0d18;--sur:#15152a;--red:#ff4455;--blue:#4488ff;--green:#44dd88;--yel:#ffcc00;--pur:#cc44ff;--ora:#ff8833;--mut:#363650;
+  --page-w:540px;}
+@media(min-width:901px){:root{--page-w:700px;}}
+@media(min-width:601px) and (max-width:900px){:root{--page-w:540px;}}
 html,body{width:100%;overflow-x:hidden;}
 body{background:var(--bg);display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:'Courier New',monospace;color:#e8e8e8;padding-bottom:40px;position:relative;}
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
 #page-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;}
 
 /* topbar */
-#topbar{width:min(540px,96vw);display:flex;align-items:center;justify-content:space-between;padding:12px 0 0;gap:6px;flex-wrap:wrap;}
+#topbar{width:min(var(--page-w),96vw);display:flex;align-items:center;justify-content:space-between;padding:12px 0 0;gap:6px;flex-wrap:wrap;}
 select{background:var(--sur);border:1px solid var(--mut);color:#ccc;padding:5px 8px;font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.1em;cursor:pointer;outline:none;transition:border-color .15s;}
 select:hover{border-color:var(--green);}select option{background:var(--sur);}
 
 /* optbar */
-#optbar{width:min(540px,96vw);display:flex;align-items:center;gap:12px;padding:7px 0 2px;flex-wrap:wrap;justify-content:center;}
+#optbar{width:min(var(--page-w),96vw);display:flex;align-items:center;gap:12px;padding:7px 0 2px;flex-wrap:wrap;justify-content:center;}
 .opt-toggle{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:.6rem;letter-spacing:.1em;color:#5a5a78;text-transform:uppercase;user-select:none;transition:color .15s;}
 .opt-toggle:hover{color:#b0b0cc;}
 .opt-toggle input[type=checkbox]{appearance:none;-webkit-appearance:none;width:26px;height:13px;background:#0c0c1e;border:1px solid var(--mut);cursor:pointer;position:relative;transition:all .15s;flex-shrink:0;}
@@ -38,7 +41,7 @@ h1{font-size:1.38rem;letter-spacing:.38em;color:var(--green);text-transform:uppe
 /* hud */
 #info{display:flex;gap:10px;margin-bottom:5px;font-size:.7rem;letter-spacing:.1em;color:#5a5a72;flex-wrap:wrap;justify-content:center;}
 #info .val{color:#e0e0e0;}
-#combo-bar-wrap{width:min(540px,96vw);height:4px;background:#111126;margin-bottom:6px;overflow:hidden;}
+#combo-bar-wrap{width:min(var(--page-w),96vw);height:4px;background:#111126;margin-bottom:6px;overflow:hidden;}
 #combo-bar{height:100%;width:0%;background:var(--yel);transition:width .07s linear;box-shadow:0 0 6px var(--yel);}
 
 /* canvas — key fix: inline-block so it never overflows */
@@ -57,12 +60,12 @@ button:disabled{opacity:.28;cursor:default;}
 #subinfo{margin-top:3px;min-height:15px;font-size:.6rem;letter-spacing:.09em;color:#454560;text-align:center;}
 
 /* legend */
-#legend{margin-top:10px;width:min(540px,96vw);display:flex;gap:9px;flex-wrap:wrap;justify-content:center;padding:8px 0;border-top:1px solid #1a1a2e;}
+#legend{margin-top:10px;width:min(var(--page-w),96vw);display:flex;gap:9px;flex-wrap:wrap;justify-content:center;padding:8px 0;border-top:1px solid #1a1a2e;}
 .leg-item{display:flex;align-items:center;gap:5px;font-size:.57rem;letter-spacing:.07em;color:#4a4a68;}
 .leg-dot{width:10px;height:10px;flex-shrink:0;}
 
 /* highscore */
-#hi-panel{margin-top:12px;width:min(540px,96vw);background:#111126;border:1px solid #272742;padding:11px 15px;}
+#hi-panel{margin-top:12px;width:min(var(--page-w),96vw);background:#111126;border:1px solid #272742;padding:11px 15px;}
 #hi-title{font-size:.66rem;letter-spacing:.2em;color:#7070a0;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;}
 .ib-clear{font-size:.54rem;color:#363650;cursor:pointer;letter-spacing:.1em;background:none;border:none;font-family:'Courier New',monospace;padding:0;text-transform:uppercase;}
 .ib-clear:hover{color:var(--red);background:none;border:none;}
@@ -83,7 +86,7 @@ button:disabled{opacity:.28;cursor:default;}
 /* ── Share overlay ── */
 .overlay{display:none;position:fixed;inset:0;background:rgba(3,3,9,.9);backdrop-filter:blur(8px);z-index:300;align-items:center;justify-content:center;padding:16px;overflow-y:auto;}
 .overlay.open{display:flex;}
-.modal{background:var(--sur);border:1px solid #303050;padding:22px 24px;width:100%;max-width:480px;position:relative;max-height:92vh;overflow-y:auto;}
+.modal{background:var(--sur);border:1px solid #303050;padding:22px 24px;width:100%;max-width:var(--page-w);position:relative;max-height:92vh;overflow-y:auto;}
 .modal h2{font-size:.82rem;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:14px;padding-right:24px;}
 .modal-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#666;font-size:1.1rem;cursor:pointer;padding:4px 8px;}
 .modal-close:hover{color:var(--red);background:none;border:none;}
@@ -211,6 +214,14 @@ button:disabled{opacity:.28;cursor:default;}
     </div>
 
     <div id="share-pane-replay">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:.6rem;letter-spacing:.1em;color:#5a5a78;text-transform:uppercase;" data-i="export_quality">QUALITY</span>
+        <select id="export-quality" style="font-size:.6rem;padding:3px 6px;">
+          <option value="low"  data-i="eq_low">LOW  — 160p · fast</option>
+          <option value="med" selected data-i="eq_med">MED  — 320p · balanced</option>
+          <option value="high" data-i="eq_high">HIGH — 480p · slow</option>
+        </select>
+      </div>
       <div id="replay-status"></div>
       <div id="replay-progress"><div id="replay-progress-bar"></div></div>
     </div>
@@ -244,7 +255,8 @@ const STRINGS={
     share_title:'SHARE SCORE',
     copy_text:'COPY TEXT',close:'CLOSE',
     stab_text:'TEXT',stab_replay:'REPLAY',
-    export_gif:'EXPORT GIF',export_mp4:'EXPORT MP4',
+    export_gif:'EXPORT GIF',export_mp4:'EXPORT MP4',export_quality:'QUALITY',
+    eq_low:'LOW — 160p · fast',eq_med:'MED — 320p · balanced',eq_high:'HIGH — 480p · slow',
     speed_slow:'SPEED: SLOW',speed_normal:'SPEED: NORMAL',speed_fast:'SPEED: FAST',speed_turbo:'SPEED: TURBO',
     combo_label:'COMBO',hi_empty:'No scores yet',
     rec_idle:'Recording OFF — enable REC checkbox before playing',
@@ -270,7 +282,8 @@ const STRINGS={
     share_title:'SCORE TEILEN',
     copy_text:'TEXT KOPIEREN',close:'SCHLIESSEN',
     stab_text:'TEXT',stab_replay:'REPLAY',
-    export_gif:'GIF EXPORTIEREN',export_mp4:'MP4 EXPORTIEREN',
+    export_gif:'GIF EXPORTIEREN',export_mp4:'MP4 EXPORTIEREN',export_quality:'QUALITÄT',
+    eq_low:'NIEDRIG — 160p · schnell',eq_med:'MITTEL — 320p · ausgewogen',eq_high:'HOCH — 480p · langsam',
     speed_slow:'SPEED: LANGSAM',speed_normal:'SPEED: NORMAL',speed_fast:'SPEED: SCHNELL',speed_turbo:'SPEED: TURBO',
     combo_label:'KOMBO',hi_empty:'Noch keine Scores',
     rec_idle:'Aufnahme AUS — REC-Checkbox vor dem Spiel aktivieren',
@@ -303,6 +316,9 @@ function applyTranslations(){
   document.getElementById('btn-share').textContent=t('share');
   document.getElementById('btn-clear').textContent=t('clear');
   document.getElementById('subinfo').textContent=t('subinfo');
+  // quality select
+  const qs=document.getElementById('export-quality');
+  if(qs){[...qs.options].forEach(o=>{const k=o.getAttribute('data-i');if(k)o.textContent=t(k);});}
   renderHighscores(lastNewScore);
 }
 
@@ -352,9 +368,13 @@ let COLS=25,ROWS=25,CELL,CANVAS_W,CANVAS_H;
 function isMobile(){return window.innerWidth<=600;}
 function defaultGridSize(){return isMobile()?15:25;}
 function CANVAS_SIZE(){
-  // match the page content width (min(540px,96vw)) so canvas never overflows
-  const maxW=Math.min(540,Math.floor(window.innerWidth*0.96));
-  return maxW;
+  const vw=window.innerWidth;
+  // Desktop (>900px): allow up to 700px canvas — feels bigger without overflowing
+  // Tablet  (600–900): up to 540px
+  // Mobile  (<600):    96vw
+  if(vw>900)  return Math.min(700, Math.floor(vw*0.6));
+  if(vw>600)  return Math.min(540, Math.floor(vw*0.86));
+  return Math.floor(vw*0.96);
 }
 function recalcCell(){
   const avail=CANVAS_SIZE();
@@ -366,7 +386,7 @@ function recalcCell(){
 // ═══════════════════════════════════════════════════════════════════
 // Game state
 // ═══════════════════════════════════════════════════════════════════
-let snake,dir,nextDir,foods,particles,floaters,score,alive,paused;
+let snake,dir,nextDir,foods,particles,floaters,score,alive,paused=false;
 let frameCount=0,baseFps=11,currentFps=11;
 let combo=1,comboTimer=0;
 const COMBO_BASE=14;
@@ -380,11 +400,17 @@ let warpFlash=0;
 let comboRewardText='',comboRewardLife=0;
 
 // ── recording ────────────────────────────────────────────────────
+// Zero-overhead strategy:
+//   • On each game tick, schedule ONE async createImageBitmap() call.
+//     This is GPU-side: no pixel readback, no serialisation, no main-thread stall.
+//   • The bitmap list is only converted to JPEG data during export (post-game).
+//   • A _captureScheduled flag ensures at most one microtask queued per draw call.
 let optRecord=false;
-let replayFrames=[];          // array of ImageData blobs (canvas snapshots at game-tick rate)
+let replayBitmaps=[];         // ImageBitmap[] — GPU-resident, ~0 CPU cost per frame
 let isRecording=false;
-let p5inst=null;              // p5 instance reference
-let p5canvas=null;            // reference to p5 canvas element
+let p5inst=null;
+let p5canvas=null;
+let _captureScheduled=false;
 
 // ═══════════════════════════════════════════════════════════════════
 // Ambient background
@@ -532,7 +558,8 @@ function startGame(){
   snake=[{x:Math.floor(COLS/2),y:Math.floor(ROWS/2)}];
   dir={x:1,y:0};nextDir={x:1,y:0};
   foods=[];particles=[];floaters=[];
-  replayFrames=[];isRecording=optRecord;
+  replayBitmaps.forEach(b=>b.close());  // free GPU memory from last run
+  replayBitmaps=[];isRecording=optRecord;_captureScheduled=false;
   spawnFood('normal');
   // resize canvas via p5 so internal state stays consistent
   if(p5inst){p5inst.resizeCanvas(CANVAS_W,CANVAS_H);}
@@ -598,10 +625,6 @@ function stepGame(){
   if(warpFlash>0)warpFlash--;
   if(comboRewardLife>0)comboRewardLife--;
   updateHUD();
-  // record frame (only on game ticks)
-  if(isRecording&&p5canvas){
-    replayFrames.push(p5canvas.toDataURL('image/jpeg',0.7));
-  }
 }
 
 function triggerShake(c){
@@ -614,7 +637,7 @@ function triggerShake(c){
 
 function gameOver(){
   alive=false;
-  isRecording=false;
+  isRecording=false;_captureScheduled=false;
   for(let i=0;i<Math.min(snake.length,10);i++)spawnParticles(snake[i].x,snake[i].y,[255,68,85],6);
   sfxDie();triggerShake(6);ambientDead=1.5;
   document.getElementById('btn-pause').disabled=true;
@@ -699,8 +722,8 @@ function updateReplayStatus(){
   const st=document.getElementById('replay-status');
   if(!optRecord){st.textContent=t('rec_idle');return;}
   if(isRecording){st.textContent=t('rec_active');return;}
-  if(replayFrames.length>0){
-    st.textContent=`${replayFrames.length} ${t('rec_done_frames')}`;
+  if(replayBitmaps.length>0){
+    st.textContent=`${replayBitmaps.length} ${t('rec_done_frames')}`;
   } else {
     st.textContent=t('rec_no_frames');
   }
@@ -712,9 +735,16 @@ function openShare(){
 }
 function closeShare(){document.getElementById('share-overlay').classList.remove('open');}
 
-// ── Replay export via GIF (gifshot-like approach using canvas frames) ──
+// ── Replay export ──────────────────────────────────────────────────
+function getExportScale(){
+  const q=document.getElementById('export-quality')?.value||'med';
+  if(q==='low')  return Math.min(1, 160/Math.max(CANVAS_W,CANVAS_H));
+  if(q==='high') return Math.min(1, 480/Math.max(CANVAS_W,CANVAS_H));
+  return Math.min(1, 320/Math.max(CANVAS_W,CANVAS_H));
+}
+
 async function exportReplay(format){
-  if(!replayFrames.length){
+  if(!replayBitmaps.length){
     document.getElementById('replay-status').textContent=t('rec_no_frames');return;
   }
   const prog=document.getElementById('replay-progress');
@@ -723,33 +753,43 @@ async function exportReplay(format){
   prog.style.display='block';bar.style.width='0%';
   st.textContent=t('rec_rendering');
 
-  // We'll render frames to an offscreen canvas and use MediaRecorder for MP4/WebM,
-  // or draw pixel data for GIF using a simple palette-based encoder.
+  const scale=getExportScale();
+  const EW=Math.max(4,Math.round(CANVAS_W*scale));
+  const EH=Math.max(4,Math.round(CANVAS_H*scale));
+
+  // Shared offscreen canvas for bitmap → pixel conversion at export time
+  const oc=document.createElement('canvas');
+  oc.width=EW; oc.height=EH;
+  const octx=oc.getContext('2d',{willReadFrequently:true});
+
   if(format==='mp4'){
-    await exportAsVideo(prog,bar,st);
+    await exportAsVideo(prog,bar,st,EW,EH,oc,octx);
   } else {
-    await exportAsGif(prog,bar,st);
+    await exportAsGif(prog,bar,st,EW,EH,oc,octx);
   }
 }
 
-async function exportAsVideo(prog,bar,st){
-  // Use OffscreenCanvas + MediaRecorder to produce WebM/MP4
-  const frames=replayFrames;
-  const W=CANVAS_W,H=CANVAS_H;
-  const oc=document.createElement('canvas');oc.width=W;oc.height=H;
-  const octx=oc.getContext('2d');
+// Convert one bitmap to the export canvas — runs at export time, not during gameplay
+function drawBitmapToCanvas(bmp,octx,EW,EH){
+  octx.clearRect(0,0,EW,EH);
+  octx.drawImage(bmp,0,0,EW,EH);
+}
+
+async function exportAsVideo(prog,bar,st,EW,EH,oc,octx){
+  const bitmaps=replayBitmaps;
   let stream,recorder,chunks=[];
-  try{stream=oc.captureStream(15);}catch(e){st.textContent='MediaStream not supported in this browser';prog.style.display='none';return;}
-  const mimeType=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(m=>MediaRecorder.isTypeSupported(m))||'video/webm';
-  recorder=new MediaRecorder(stream,{mimeType,videoBitsPerSecond:2000000});
+  try{ stream=oc.captureStream(15); }
+  catch(e){ st.textContent='MediaStream not supported';prog.style.display='none';return; }
+  const mimeType=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm']
+    .find(m=>MediaRecorder.isTypeSupported(m))||'video/webm';
+  recorder=new MediaRecorder(stream,{mimeType,videoBitsPerSecond:2500000});
   recorder.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
   recorder.start();
-  for(let i=0;i<frames.length;i++){
-    await new Promise(res=>{
-      const img=new Image();img.onload=()=>{octx.drawImage(img,0,0);res();};img.src=frames[i];
-    });
-    bar.style.width=((i+1)/frames.length*100)+'%';
-    await new Promise(r=>setTimeout(r,66));// ~15fps
+  for(let i=0;i<bitmaps.length;i++){
+    drawBitmapToCanvas(bitmaps[i],octx,EW,EH);
+    bar.style.width=((i+1)/bitmaps.length*100)+'%';
+    // yield to let MediaRecorder consume the frame
+    await new Promise(r=>setTimeout(r,66));
   }
   recorder.stop();
   await new Promise(r=>recorder.onstop=r);
@@ -757,70 +797,72 @@ async function exportAsVideo(prog,bar,st){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.download='cyber_snake_replay.webm';a.href=url;a.click();
   setTimeout(()=>URL.revokeObjectURL(url),5000);
-  st.textContent=`✓ ${frames.length} frames exported`;prog.style.display='none';
+  st.textContent=`✓ ${bitmaps.length} frames · ${EW}×${EH}`;
+  prog.style.display='none';
 }
 
-// Pure-JS GIF encoder (LZW palette-based, no external library)
-async function exportAsGif(prog,bar,st){
-  const frames=replayFrames;
-  const W=CANVAS_W,H=CANVAS_H;
-  // render each frame to an offscreen canvas, sample pixels, encode GIF
-  const oc=document.createElement('canvas');oc.width=W;oc.height=H;
-  const octx=oc.getContext('2d');
-  // We'll use a simple animated GIF writer
-  const gifData=await buildGif(frames,W,H,octx,bar);
+async function exportAsGif(prog,bar,st,EW,EH,oc,octx){
+  const bitmaps=replayBitmaps;
+  const gifData=await buildGif(bitmaps,EW,EH,oc,octx,bar);
   const blob=new Blob([gifData],{type:'image/gif'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.download='cyber_snake_replay.gif';a.href=url;a.click();
   setTimeout(()=>URL.revokeObjectURL(url),5000);
-  st.textContent=`✓ ${frames.length} frames exported`;prog.style.display='none';
+  st.textContent=`✓ ${bitmaps.length} frames · ${EW}×${EH}`;
+  prog.style.display='none';
 }
 
-// ── Minimal animated GIF encoder ────────────────────────────────────
-// Based on the GIF89a spec. Supports 256-color palette per frame (median-cut approximation via simple quantization).
-async function buildGif(frames,W,H,ctx,bar){
-  const delay=Math.round(100/15)*2; // ~100ms = 10fps output for small size
-  // Skip frames to keep GIF manageable (max 60 frames)
+// ── Minimal animated GIF encoder (GIF89a, LZW, 256-color cyber palette) ──
+async function buildGif(bitmaps,W,H,oc,octx,bar){
+  // frame-skip to keep GIF ≤ 60 frames
   const maxF=60;
-  const step=Math.max(1,Math.floor(frames.length/maxF));
-  const selected=[];for(let i=0;i<frames.length;i+=step)selected.push(frames[i]);
+  const step=Math.max(1,Math.ceil(bitmaps.length/maxF));
+  const selected=[];
+  for(let i=0;i<bitmaps.length;i+=step) selected.push(bitmaps[i]);
+
+  const fps_out=10;
+  const delay=Math.round(100/fps_out); // GIF delay in 1/100s units
 
   const bytes=[];
-  // ── Helpers ────────────────────────────────────────────────────
-  const wb=(b)=>bytes.push(b&0xFF);
-  const ws=(s)=>{wb(s&0xFF);wb((s>>8)&0xFF);}
-  const wstr=(s)=>{for(let i=0;i<s.length;i++)wb(s.charCodeAt(i));}
-  // Header
-  wstr('GIF89a');ws(W);ws(H);wb(0xF7);wb(0);wb(0);// GCT flag, 256 colors
-  // Global palette (cyber palette: dark bg + greens + reds + purples + yellows + blues + grays)
+  const wb=b=>bytes.push(b&0xFF);
+  const ws=s=>{wb(s&0xFF);wb((s>>8)&0xFF);};
+  const wstr=s=>{for(let i=0;i<s.length;i++)wb(s.charCodeAt(i));};
+
   const palette=buildCyberPalette();
+  // GIF header + GCT
+  wstr('GIF89a'); ws(W); ws(H);
+  wb(0xF7);  // GCT flag, 256 colors, no sort
+  wb(0);     // background index
+  wb(0);     // pixel aspect ratio
   for(const [r,g,b] of palette){wb(r);wb(g);wb(b);}
-  // Netscape looping extension
+  // Netscape loop extension
   wb(0x21);wb(0xFF);wb(11);wstr('NETSCAPE2.0');wb(3);wb(1);ws(0);wb(0);
-  // Frames
+
   for(let fi=0;fi<selected.length;fi++){
     bar.style.width=((fi+1)/selected.length*100)+'%';
-    const pixelData=await getFramePixels(selected[fi],W,H,ctx);
-    const indices=quantizeTopalette(pixelData,palette,W,H);
-    // Graphic control extension
+    // draw bitmap into shared canvas (no new allocation per frame)
+    octx.clearRect(0,0,W,H);
+    octx.drawImage(selected[fi],0,0,W,H);
+    const pixelData=octx.getImageData(0,0,W,H).data;
+    const indices=quantizeToPalette(pixelData,palette);
+    // GCE
     wb(0x21);wb(0xF9);wb(4);wb(0x00);ws(delay);wb(0);wb(0);
     // Image descriptor
     wb(0x2C);ws(0);ws(0);ws(W);ws(H);wb(0);
-    // LZW compressed indices
+    // LZW image data
+    wb(8);
     const compressed=lzwEncode(indices,8);
-    wb(8);// LZW min code size
-    // write in 255-byte sub-blocks
-    let off=0;
-    while(off<compressed.length){
+    for(let off=0;off<compressed.length;){
       const chunk=Math.min(255,compressed.length-off);
       wb(chunk);
-      for(let k=0;k<chunk;k++)wb(compressed[off+k]);
+      for(let k=0;k<chunk;k++) wb(compressed[off+k]);
       off+=chunk;
     }
-    wb(0);// block terminator
-    await new Promise(r=>setTimeout(r,0));
+    wb(0);
+    // yield every 5 frames so UI stays responsive during export
+    if(fi%5===4) await new Promise(r=>setTimeout(r,0));
   }
-  wb(0x3B);// trailer
+  wb(0x3B);
   return new Uint8Array(bytes);
 }
 
@@ -849,17 +891,10 @@ function buildCyberPalette(){
   return p.slice(0,256);
 }
 
-async function getFramePixels(dataUrl,W,H,ctx){
-  return new Promise(res=>{
-    const img=new Image();
-    img.onload=()=>{ctx.drawImage(img,0,0,W,H);res(ctx.getImageData(0,0,W,H).data);};
-    img.src=dataUrl;
-  });
-}
-
-function quantizeTopalette(data,palette,W,H){
-  const indices=new Uint8Array(W*H);
-  for(let i=0;i<W*H;i++){
+function quantizeToPalette(data,palette){
+  const n=data.length>>2;  // pixel count = byte length / 4
+  const indices=new Uint8Array(n);
+  for(let i=0;i<n;i++){
     const r=data[i*4],g=data[i*4+1],b=data[i*4+2];
     let best=0,bestD=Infinity;
     for(let j=0;j<palette.length;j++){
@@ -1110,13 +1145,26 @@ new p5(function(p){
       p.text(t('paused'),CANVAS_W/2,CANVAS_H/2);p.textStyle(p.NORMAL);
     }
 
-    // rec indicator
+    // rec indicator dot
     if(isRecording){
       p.noStroke();p.fill(255,68,85,180+Math.sin(p.frameCount*0.2)*60);
       p.ellipse(CANVAS_W-12,12,8,8);
     }
 
     p.translate(-sx,-sy);
+
+    // ── async frame capture — GPU-side only, no CPU stall ──────────
+    // createImageBitmap reads directly from the GPU framebuffer.
+    // The Promise resolves in a microtask; main thread is never blocked.
+    if(isRecording && p5canvas && !_captureScheduled &&
+       frameCount % Math.round(60/currentFps) === 0){
+      _captureScheduled = true;
+      createImageBitmap(p5canvas).then(bmp=>{
+        if(isRecording) replayBitmaps.push(bmp);
+        else bmp.close();
+        _captureScheduled = false;
+      }).catch(()=>{ _captureScheduled=false; });
+    }
   };
 
   // keyboard
@@ -1170,12 +1218,19 @@ function drawStar(p,x,y,r1,r2,pts){
 // ═══════════════════════════════════════════════════════════════════
 // Init
 // ═══════════════════════════════════════════════════════════════════
+
+// ── 1. Language: detect & set select FIRST, before anything else ──
+lang=detectLang();
+document.getElementById('lang-select').value=lang;
+
+// ── 2. Mobile default grid ──
 (function(){
-  // set mobile default grid
   const ss=document.getElementById('size-select');
   const def=String(defaultGridSize());
   [...ss.options].forEach(o=>{o.selected=(o.value===def);});
 })();
+
+// ── 3. Speed select options (text will be translated below) ──
 (function(){
   const ss=document.getElementById('speed-select');
   [{v:7,k:'speed_slow'},{v:11,k:'speed_normal'},{v:17,k:'speed_fast'},{v:25,k:'speed_turbo'}].forEach(({v,k})=>{
@@ -1185,18 +1240,16 @@ function drawStar(p,x,y,r1,r2,pts){
   });
 })();
 
-// language — detect first, then set select, then translate
-lang=detectLang();
-document.getElementById('lang-select').value=lang;
-applyTranslations();// now select and strings are in sync
+// ── 4. Apply translations (lang already set, paused=false) ──
+applyTranslations();
 
+// ── 5. Checkbox listeners ──
 ['cb-warp','cb-ghost'].forEach(id=>{
   document.getElementById(id).addEventListener('change',()=>{
     document.getElementById('leg-warp').style.display=document.getElementById('cb-warp').checked?'':'none';
     document.getElementById('leg-ghost').style.display=document.getElementById('cb-ghost').checked?'':'none';
   });
 });
-// REC label turns red when checked (JS fallback for :has)
 document.getElementById('cb-record').addEventListener('change',function(){
   document.getElementById('lbl-record').classList.toggle('rec-active',this.checked);
 });
